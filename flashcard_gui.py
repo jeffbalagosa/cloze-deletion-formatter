@@ -1,10 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext
-import logging
 from cloze_parser import generate_flashcards
-
-# Set up logging to output debug messages to the console
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class FlashcardGUI(tk.Tk):
     def __init__(self):
@@ -21,13 +17,8 @@ class FlashcardGUI(tk.Tk):
         self.input_text = scrolledtext.ScrolledText(self, wrap=tk.WORD, height=10)
         self.input_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
         self.input_text.bind("<<Modified>>", self.on_input_change)
-        # Bind both variants of the key combination
         self.input_text.bind("<Control-Shift-c>", self.wrap_selected_text)
         self.input_text.bind("<Control-Shift-C>", self.wrap_selected_text)
-        logging.debug("Bound <Control-Shift-c> and <Control-Shift-C> to wrap_selected_text")
-
-        # Debug: log all keypress events
-        self.input_text.bind("<Key>", self.log_keypress)
 
         # Output Label and Text Area
         output_label = tk.Label(self, text="Flashcard Preview:")
@@ -38,35 +29,26 @@ class FlashcardGUI(tk.Tk):
         )
         self.output_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
 
-    def log_keypress(self, event):
-        logging.debug(f"Key pressed: keysym={event.keysym}, char='{event.char}', state={event.state}")
-
     def on_input_change(self, event):
         # When the input text is modified, update the preview
         self.input_text.edit_modified(False)
         self.update_preview()
 
     def wrap_selected_text(self, event):
-        logging.debug("wrap_selected_text triggered")
         try:
             # Get selected text indices
             start = self.input_text.index(tk.SEL_FIRST)
             end = self.input_text.index(tk.SEL_LAST)
             selected_text = self.input_text.get(start, end)
-            logging.debug(f"Selected text from {start} to {end}: '{selected_text}'")
         except tk.TclError:
-            # No selection; log and do nothing
-            logging.debug("No text selected.")
             return "break"
 
         # Create the new wrapped text
         new_text = f"{{{{c1::{selected_text}}}}}"
-        logging.debug(f"New wrapped text: '{new_text}'")
 
         # Replace the selection with the new text
         self.input_text.delete(start, end)
         self.input_text.insert(start, new_text)
-        logging.debug("Replaced selected text with wrapped text")
         return "break"  # Prevent further handling of this event
 
     def update_preview(self):
