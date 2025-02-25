@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from cloze_parser import generate_flashcards
 
+
 class FlashcardGUI(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -72,6 +73,7 @@ class FlashcardGUI(tk.Tk):
         self.output_text.delete("1.0", tk.END)
         self.output_text.insert(tk.END, preview_str)
         self.output_text.configure(state="disabled")
+
 
 if __name__ == "__main__":
     app = FlashcardGUI()
