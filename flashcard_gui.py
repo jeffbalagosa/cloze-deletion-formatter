@@ -28,12 +28,6 @@ class FlashcardGUI(tk.Tk):
         )
         self.output_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
 
-        # Optional: Refresh Button for manual update
-        refresh_btn = tk.Button(
-            self, text="Update Preview", command=self.update_preview
-        )
-        refresh_btn.pack(pady=5)
-
     def on_input_change(self, event):
         # When the input text is modified, update the preview
         self.input_text.edit_modified(False)
