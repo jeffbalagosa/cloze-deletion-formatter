@@ -18,7 +18,6 @@ class FlashcardGUI(tk.Tk):
         self.input_text = scrolledtext.ScrolledText(self, wrap=tk.WORD, height=10)
         self.input_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
         self.input_text.bind("<<Modified>>", self.on_input_change)
-        self.input_text.bind("<Control-Shift-c>", self.wrap_selected_text)
         self.input_text.bind("<Control-Shift-C>", self.wrap_selected_text)
 
         # Output Label and Text Area
@@ -35,7 +34,7 @@ class FlashcardGUI(tk.Tk):
         self.input_text.edit_modified(False)
         self.update_preview()
 
-    def wrap_selected_text(self, event):
+    def wrap_selected_text(self, event, current_tag_num=1):
         try:
             # Get selected text indices
             start = self.input_text.index(tk.SEL_FIRST)
@@ -45,7 +44,7 @@ class FlashcardGUI(tk.Tk):
             return "break"
 
         # Create the new wrapped text
-        new_text = f"{{{{c1::{selected_text}}}}}"
+        new_text = f"{{{{c{current_tag_num}::{selected_text}}}}}"
 
         # Replace the selection with the new text
         self.input_text.delete(start, end)
