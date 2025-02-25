@@ -90,7 +90,7 @@ Now, you'll also need a `LICENSE` file. Here's the **MIT License** text:
 **LICENSE**
 MIT License
 
-Copyright (c) 2025 [Your Name]
+Copyright (c) 2025 Jeff Balagosa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
