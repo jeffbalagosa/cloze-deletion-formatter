@@ -87,7 +87,7 @@ This means:
 ## Contribution
 Contributions are welcome! Fork the repository, make improvements, and submit a pull request.
 
-**LICENSE**
+## LICENSE
 MIT License
 
 Copyright (c) 2025 Jeff Balagosa
