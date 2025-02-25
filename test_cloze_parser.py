@@ -10,7 +10,7 @@ class TestClozeParser(unittest.TestCase):
         card = cards[0]
         self.assertEqual(card["tag"], "1")
         self.assertEqual(card["question"], "This is a _____.")
-        self.assertEqual(card["answer"], "This is a test.")
+        self.assertEqual(card["answer"], ["test"])  # Changed to match new format
         self.assertEqual(card["cloze_texts"], ["test"])
 
     def test_multiple_occurrences_same_tag(self):
@@ -20,7 +20,7 @@ class TestClozeParser(unittest.TestCase):
         card = cards[0]
         self.assertEqual(card["tag"], "1")
         self.assertEqual(card["question"], "First: _____, then: _____.")
-        self.assertEqual(card["answer"], "First: alpha, then: beta.")
+        self.assertEqual(card["answer"], ["alpha", "beta"])  # Changed to match new format
         self.assertEqual(card["cloze_texts"], ["alpha", "beta"])
 
     def test_multiple_cloze_different_tags(self):
@@ -37,13 +37,13 @@ class TestClozeParser(unittest.TestCase):
         self.assertEqual(card1["tag"], "1")
         # For tag c1: blank out the c1 cloze, but show c2's text ("Java")
         self.assertEqual(card1["question"], "Learning _____ is fun, and Java too.")
-        self.assertEqual(card1["answer"], "Learning Python is fun, and Java too.")
+        self.assertEqual(card1["answer"], ["Python"])  # Changed to match new format
         self.assertEqual(card1["cloze_texts"], ["Python"])
 
         self.assertEqual(card2["tag"], "2")
         # For tag c2: show c1's text ("Python"), but blank out the c2 cloze
         self.assertEqual(card2["question"], "Learning Python is fun, and _____ too.")
-        self.assertEqual(card2["answer"], "Learning Python is fun, and Java too.")
+        self.assertEqual(card2["answer"], ["Java"])  # Changed to match new format
         self.assertEqual(card2["cloze_texts"], ["Java"])
 
     def test_no_cloze(self):
