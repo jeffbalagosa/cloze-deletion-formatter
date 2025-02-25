@@ -1,0 +1,111 @@
+# Cloze Deletion Formatter
+
+## Overview
+The **Cloze Deletion Formatter** is a Python-based tool that processes text containing cloze deletions (e.g., `{{c1::text}}`) to generate flashcards. It includes both a parser for extracting and formatting cloze deletions and a GUI application for easy input and previewing of flashcards.
+
+## Features
+- **Cloze Deletion Parser:** Identifies and processes cloze deletion patterns in text.
+- **Flashcard Generator:** Produces structured question-answer flashcards.
+- **Graphical User Interface (GUI):** A simple Tkinter-based UI for inputting text and previewing flashcards.
+- **Automated Tests:** A suite of unit tests ensures the correctness of the cloze parsing and flashcard generation logic.
+
+## Installation
+
+### Prerequisites
+- Python 3.x
+- Tkinter (included in standard Python distributions)
+
+### Clone the Repository
+```bash
+git clone https://github.com/your-username/cloze-deletion-formatter.git
+cd cloze-deletion-formatter
+```
+
+### Install Dependencies
+The project currently does not have an explicit `requirements.txt`, but if needed, create one with:
+```txt
+tkinter
+```
+Since Tkinter is included with Python, additional installations may not be necessary.
+
+## Usage
+
+### Running the GUI Application
+```bash
+python flashcard_gui.py
+```
+1. Enter text containing Cloze Deletion syntax (e.g., `{{c1::Python}} is awesome`).
+2. The GUI will automatically parse and generate preview flashcards.
+
+### Running the Parser Script Directly
+```bash
+python cloze_parser.py
+```
+This will generate flashcards from a sample text and print the question/answer format.
+
+### Running Unit Tests
+```bash
+python -m unittest test_cloze_parser.py
+```
+Executes unit tests to validate correct flashcard generation.
+
+## Project Structure
+```
+├── .gitignore            # Ignored files (e.g., __pycache__, virtual environments)
+├── cloze_parser.py       # Main parser for extracting and formatting cloze deletions
+├── flashcard_gui.py      # GUI application for text input and flashcard preview
+├── test_cloze_parser.py  # Unit tests for the parser
+├── LICENSE               # MIT License file
+├── README.md             # Project documentation (this file)
+```
+
+## How It Works
+
+### Cloze Deletion Format
+Cloze deletions follow this syntax:
+```plaintext
+{{c1::Python}} is a programming language.
+{{c2::Java}} is another language.
+```
+This format creates two flashcards:
+1. **Question:** `_____ is a programming language.`
+   **Answer:** `Python is a programming language.`
+2. **Question:** `Python is a programming language. _____ is another language.`
+   **Answer:** `Python is a programming language. Java is another language.`
+
+The `cloze_parser.py` script extracts these patterns, replacing each tag with a blank in a structured way.
+
+## Contribution
+Contributions are welcome! Fork the repository, make improvements, and submit a pull request.
+
+## License
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Now, you'll also need a `LICENSE` file. Here's the **MIT License** text:
+
+---
+
+**LICENSE**
+MIT License
+
+Copyright (c) 2025 [Your Name]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
