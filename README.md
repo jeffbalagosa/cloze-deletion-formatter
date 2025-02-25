@@ -1,7 +1,7 @@
 # Cloze Deletion Formatter
 
 ## Overview
-The **Cloze Deletion Formatter** is a Python-based tool that processes text containing cloze deletions (e.g., `{{c1::text}}`) to generate flashcards. It includes both a parser for extracting and formatting cloze deletions and a GUI application for easy input and previewing of flashcards.
+The **Cloze Deletion Formatter** is a Python-based tool that processes text containing cloze deletions (e.g., `{{c1::text}}`) to generate flashcards. It includes a parser for extracting and formatting cloze deletions and a GUI application for easy input and previewing of flashcards.
 
 ## Features
 - **Cloze Deletion Parser:** Identifies and processes cloze deletion patterns in text.
@@ -22,7 +22,7 @@ cd cloze-deletion-formatter
 ```
 
 ### Install Dependencies
-The project currently does not have an explicit `requirements.txt`, but if needed, create one with:
+The project does not require an explicit `requirements.txt`, but if needed, create one with:
 ```txt
 tkinter
 ```
@@ -55,7 +55,6 @@ Executes unit tests to validate correct flashcard generation.
 ├── cloze_parser.py       # Main parser for extracting and formatting cloze deletions
 ├── flashcard_gui.py      # GUI application for text input and flashcard preview
 ├── test_cloze_parser.py  # Unit tests for the parser
-├── LICENSE               # MIT License file
 ├── README.md             # Project documentation (this file)
 ```
 
@@ -69,23 +68,24 @@ Cloze deletions follow this syntax:
 ```
 This format creates two flashcards:
 1. **Question:** `_____ is a programming language.`
-   **Answer:** `Python is a programming language.`
+   **Answer:** `["Python"]`
 2. **Question:** `Python is a programming language. _____ is another language.`
-   **Answer:** `Python is a programming language. Java is another language.`
+   **Answer:** `["Java"]`
 
-The `cloze_parser.py` script extracts these patterns, replacing each tag with a blank in a structured way.
+If multiple instances of the same cloze tag exist in a sentence:
+```plaintext
+Learning {{c1::Python}} is fun, and {{c1::programming}} is too.
+```
+The generated flashcard will have:
+- **Question:** `Learning _____ is fun, and _____ is too.`
+- **Answer:** `["Python", "programming"]`
+
+This means:
+- The `question` field blanks out only one cloze tag per card.
+- The `answer` field **returns a list** of the removed words.
 
 ## Contribution
 Contributions are welcome! Fork the repository, make improvements, and submit a pull request.
-
-## License
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
-Now, you'll also need a `LICENSE` file. Here's the **MIT License** text:
-
----
 
 **LICENSE**
 MIT License
