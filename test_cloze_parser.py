@@ -35,12 +35,14 @@ class TestClozeParser(unittest.TestCase):
         card2 = cards[1]
 
         self.assertEqual(card1["tag"], "1")
-        self.assertEqual(card1["question"], "Learning _____ is fun, and _____ too.")
+        # For tag c1: blank out the c1 cloze, but show c2's text ("Java")
+        self.assertEqual(card1["question"], "Learning _____ is fun, and Java too.")
         self.assertEqual(card1["answer"], "Learning Python is fun, and Java too.")
         self.assertEqual(card1["cloze_texts"], ["Python"])
 
         self.assertEqual(card2["tag"], "2")
-        self.assertEqual(card2["question"], "Learning _____ is fun, and _____ too.")
+        # For tag c2: show c1's text ("Python"), but blank out the c2 cloze
+        self.assertEqual(card2["question"], "Learning Python is fun, and _____ too.")
         self.assertEqual(card2["answer"], "Learning Python is fun, and Java too.")
         self.assertEqual(card2["cloze_texts"], ["Java"])
 

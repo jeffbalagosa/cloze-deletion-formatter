@@ -5,44 +5,46 @@ def generate_flashcards(input_text):
     # Regex pattern to capture cloze deletion tags of the form {{c<number>::text}}
     pattern = re.compile(r"\{\{c(\d+)::(.*?)\}\}")
 
-    # Dictionary to hold unique flashcards per cloze tag number
-    flashcards = {}
+    # Dictionary to hold cloze texts for each tag
+    cloze_texts_dict = {}
 
-    # Replacement function to build the question view and store cloze texts
-    def replacement(match):
+    # First pass: collect all cloze texts for each tag
+    for match in pattern.finditer(input_text):
         tag = match.group(1)
         cloze_text = match.group(2)
-        # Store the cloze text for this tag
-        flashcards.setdefault(tag, {"tag": tag, "cloze_texts": []})
-        flashcards[tag]["cloze_texts"].append(cloze_text)
-        # Replace the cloze deletion with a blank placeholder
-        return "_____"
+        cloze_texts_dict.setdefault(tag, []).append(cloze_text)
 
-    # Create the question view by substituting cloze tags with placeholders
-    question_text = pattern.sub(replacement, input_text)
-    # Create the answer view by stripping out the cloze markers but keeping the answer text visible
+    # Create a full answer view: all cloze deletions replaced with their answer text
     answer_text = pattern.sub(lambda m: m.group(2), input_text)
 
-    # Consolidate flashcard objects
-    cards = []
-    for tag, data in flashcards.items():
-        cards.append(
+    flashcards = []
+    # For each unique tag, generate a question view that blanks only that tag
+    for tag, texts in cloze_texts_dict.items():
+
+        def make_repl(m, target=tag):
+            # If this is the target tag, replace with a placeholder,
+            # otherwise, replace with the cloze text (i.e. show the answer)
+            return "_____" if m.group(1) == target else m.group(2)
+
+        question_text = pattern.sub(make_repl, input_text)
+
+        flashcards.append(
             {
                 "tag": tag,
                 "question": question_text,
                 "answer": answer_text,
-                "cloze_texts": data["cloze_texts"],
+                "cloze_texts": texts,
             }
         )
 
-    return cards
+    return flashcards
 
 
 # Example usage:
 if __name__ == "__main__":
     sample_text = (
         "This is a sample note with a cloze deletion: {{c1::Python}} is awesome. "
-        "Remember, {{c1::programming}} can be fun too!"
+        "Remember, {{c2::programming}} can be fun too!"
     )
 
     flashcards = generate_flashcards(sample_text)
