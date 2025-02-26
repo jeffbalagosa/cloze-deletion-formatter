@@ -40,14 +40,14 @@ class FlashcardGUI(tk.Tk):
         # Add buttons as alternatives to hotkeys
         cloze_c1_btn = tk.Button(
             button_frame,
-            text="Add Cloze c1 (Ctrl+Shift+C)",
+            text="Add Cloze (Same Card)",
             command=lambda: self.wrap_selected_text(None),
         )
         cloze_c1_btn.pack(side=tk.LEFT, padx=5)
 
         cloze_increment_btn = tk.Button(
             button_frame,
-            text="Add Cloze c2+ (Ctrl+Alt+Shift+C)",
+            text="Add Cloze (New Card)",
             command=lambda: self.wrap_selected_text_and_increment(None),
         )
         cloze_increment_btn.pack(side=tk.LEFT, padx=5)
@@ -96,10 +96,10 @@ class FlashcardGUI(tk.Tk):
             preview_str = "No cloze deletions found."
         else:
             for card in flashcards:
-                preview_str += f"Flashcard for tag c{card['tag']}:\n"
-                preview_str += f"Question: {card['question']}\n"
-                preview_str += f"Answer: {card['answer']}\n"
-                preview_str += "-" * 40 + "\n"
+                preview_str += f"Flashcard {card['tag']}:\n"
+                preview_str += f"\nQuestion: {card['question']}\n"
+                preview_str += f"\nAnswer: {card['answer']}\n\n"
+                preview_str += "-" * 40 + "\n\n"
 
         # Update the output text widget
         self.output_text.configure(state="normal")
