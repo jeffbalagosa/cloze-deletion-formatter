@@ -24,14 +24,12 @@ def generate_flashcards(input_text):
             return "_____" if m.group(1) == target else m.group(2)
 
         question_text = pattern.sub(make_repl, input_text)
-
         flashcards.append(
             {
                 "tag": tag,
-                "question": question_text,
-                "answer": texts,  # Now the answer is just the cloze texts
+                "front": question_text,  # Changed from "question" to "front"
+                "back": texts,  # Changed from "answer" to "back"
                 "cloze_texts": texts,  # Keep this field for backwards compatibility
             }
         )
-
     return flashcards
