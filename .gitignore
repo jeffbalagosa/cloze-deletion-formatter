@@ -50,3 +50,6 @@ logs/
 
 # OS specific
 .DS_Store
+
+# repository packager
+repomix-output.txt

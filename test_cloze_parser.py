@@ -9,8 +9,8 @@ class TestClozeParser(unittest.TestCase):
         self.assertEqual(len(cards), 1)
         card = cards[0]
         self.assertEqual(card["tag"], "1")
-        self.assertEqual(card["question"], "This is a _____.")
-        self.assertEqual(card["answer"], ["test"])  # Changed to match new format
+        self.assertEqual(card["front"], "This is a _____.")
+        self.assertEqual(card["back"], ["test"])
         self.assertEqual(card["cloze_texts"], ["test"])
 
     def test_multiple_occurrences_same_tag(self):
@@ -19,37 +19,32 @@ class TestClozeParser(unittest.TestCase):
         self.assertEqual(len(cards), 1)
         card = cards[0]
         self.assertEqual(card["tag"], "1")
-        self.assertEqual(card["question"], "First: _____, then: _____.")
-        self.assertEqual(card["answer"], ["alpha", "beta"])  # Changed to match new format
+        self.assertEqual(card["front"], "First: _____, then: _____.")
+        self.assertEqual(card["back"], ["alpha", "beta"])
         self.assertEqual(card["cloze_texts"], ["alpha", "beta"])
 
     def test_multiple_cloze_different_tags(self):
         input_text = "Learning {{c1::Python}} is fun, and {{c2::Java}} too."
         cards = generate_flashcards(input_text)
-        # Expecting two flashcards for two distinct tags.
         self.assertEqual(len(cards), 2)
-        # Sort the cards by tag number for consistency
         cards.sort(key=lambda c: int(c["tag"]))
 
         card1 = cards[0]
         card2 = cards[1]
 
         self.assertEqual(card1["tag"], "1")
-        # For tag c1: blank out the c1 cloze, but show c2's text ("Java")
-        self.assertEqual(card1["question"], "Learning _____ is fun, and Java too.")
-        self.assertEqual(card1["answer"], ["Python"])  # Changed to match new format
+        self.assertEqual(card1["front"], "Learning _____ is fun, and Java too.")
+        self.assertEqual(card1["back"], ["Python"])
         self.assertEqual(card1["cloze_texts"], ["Python"])
 
         self.assertEqual(card2["tag"], "2")
-        # For tag c2: show c1's text ("Python"), but blank out the c2 cloze
-        self.assertEqual(card2["question"], "Learning Python is fun, and _____ too.")
-        self.assertEqual(card2["answer"], ["Java"])  # Changed to match new format
+        self.assertEqual(card2["front"], "Learning Python is fun, and _____ too.")
+        self.assertEqual(card2["back"], ["Java"])
         self.assertEqual(card2["cloze_texts"], ["Java"])
 
     def test_no_cloze(self):
         input_text = "No cloze deletion here."
         cards = generate_flashcards(input_text)
-        # Expecting an empty list if no cloze tags are found.
         self.assertEqual(cards, [])
 
 
