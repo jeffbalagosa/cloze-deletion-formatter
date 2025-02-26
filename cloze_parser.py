@@ -35,17 +35,3 @@ def generate_flashcards(input_text):
         )
 
     return flashcards
-# Example usage:
-if __name__ == "__main__":
-    sample_text = (
-        "This is a sample note with a cloze deletion: {{c1::Python}} is awesome. "
-        "Remember, {{c2::programming}} can be {{c2::fun}} too!"
-    )
-
-    flashcards = generate_flashcards(sample_text)
-
-    for card in flashcards:
-        print(f"Flashcard for tag c{card['tag']}:")
-        print("Question View:", card["question"])
-        print("Answer View:", card["answer"])
-        print("-" * 40)
