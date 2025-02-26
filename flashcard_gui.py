@@ -8,6 +8,7 @@ class FlashcardGUI(tk.Tk):
         super().__init__()
         self.title("Cloze Deletion Flashcard Generator")
         self.geometry("800x600")
+        self.current_tag_num = 1  # Add this to track the current tag number
         self.create_widgets()
 
     def create_widgets(self):
@@ -19,6 +20,7 @@ class FlashcardGUI(tk.Tk):
         self.input_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
         self.input_text.bind("<<Modified>>", self.on_input_change)
         self.input_text.bind("<Control-Shift-C>", self.wrap_selected_text)
+        self.input_text.bind("<Control-Alt-Shift-C>", self.wrap_selected_text_and_increment)
 
         # Output Label and Text Area
         output_label = tk.Label(self, text="Flashcard Preview:")
@@ -34,7 +36,7 @@ class FlashcardGUI(tk.Tk):
         self.input_text.edit_modified(False)
         self.update_preview()
 
-    def wrap_selected_text(self, event, current_tag_num=1):
+    def wrap_selected_text(self, event):
         try:
             # Get selected text indices
             start = self.input_text.index(tk.SEL_FIRST)
@@ -44,12 +46,19 @@ class FlashcardGUI(tk.Tk):
             return "break"
 
         # Create the new wrapped text
-        new_text = f"{{{{c{current_tag_num}::{selected_text}}}}}"
+        new_text = f"{{{{c{self.current_tag_num}::{selected_text}}}}}"
 
         # Replace the selection with the new text
         self.input_text.delete(start, end)
         self.input_text.insert(start, new_text)
         return "break"  # Prevent further handling of this event
+
+    def wrap_selected_text_and_increment(self, event):
+        # Call the regular wrap method first
+        self.wrap_selected_text(event)
+        # Then increment the tag number
+        self.current_tag_num += 1
+        return "break"
 
     def update_preview(self):
         # Get the input text
