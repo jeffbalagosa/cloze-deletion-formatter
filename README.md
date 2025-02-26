@@ -1,94 +1,97 @@
-# Cloze Deletion Formatter
+# Cloze Deletion Flashcard Generator
 
-## Overview
-The **Cloze Deletion Formatter** is a Python-based tool that processes text containing cloze deletions (e.g., `{{c1::text}}`) to generate flashcards. It includes a parser for extracting and formatting cloze deletions and a GUI application for easy input and previewing of flashcards.
+A simple Python application for creating cloze deletion flashcards from text. The project includes a parser to convert specially formatted text into flashcards and a GUI built with Tkinter for an interactive experience. Automated tests are also provided.
+
+---
 
 ## Features
-- **Cloze Deletion Parser:** Identifies and processes cloze deletion patterns in text.
-- **Flashcard Generator:** Produces structured question-answer flashcards.
-- **Graphical User Interface (GUI):** A simple Tkinter-based UI for inputting text and previewing flashcards.
-- **Automated Tests:** A suite of unit tests ensures the correctness of the cloze parsing and flashcard generation logic.
+
+- **Cloze Parsing:** Convert text with cloze deletion tags (`{{c<number>::text}}`) into flashcard front/back pairs.
+- **Interactive GUI:** Use the Tkinter interface to input notes, create cloze deletions with keyboard shortcuts, preview flashcards, and copy them to the clipboard.
+- **Testing:** Unit tests to ensure the cloze parsing works correctly.
+
+---
 
 ## Installation
 
-### Prerequisites
-- Python 3.x
-- Tkinter (included in standard Python distributions)
+1. **Clone the Repository:**
 
-### Clone the Repository
-```bash
-git clone https://github.com/your-username/cloze-deletion-formatter.git
-cd cloze-deletion-formatter
-```
+   ```bash
+   git clone https://github.com/yourusername/cloze-flashcard-generator.git
+   cd cloze-flashcard-generator
+   ```
 
-### Install Dependencies
-The project does not require an explicit `requirements.txt`, but if needed, create one with:
-```txt
-tkinter
-```
-Since Tkinter is included with Python, additional installations may not be necessary.
+2. **Dependencies:**
+
+   This project uses only the Python standard library (including `tkinter` for the GUI), so no additional packages are required.
+
+---
 
 ## Usage
 
-### Running the GUI Application
+### Running the GUI
+
+Launch the flashcard generator GUI by executing:
+
 ```bash
 python flashcard_gui.py
 ```
-1. Enter text containing Cloze Deletion syntax (e.g., `{{c1::Python}} is awesome`).
-2. The GUI will automatically parse and generate preview flashcards.
 
-### Running the Parser Script Directly
-```bash
-python cloze_parser.py
+- **Input:** Type or paste your notes into the "Input Notes" field.
+- **Creating Cloze Deletions:**
+  - **Same Card:** Highlight text and press <kbd>Ctrl+Shift+C</kbd> or click "Add Cloze (Same Card)".
+  - **New Card:** Highlight text and press <kbd>Ctrl+Alt+Shift+C</kbd> or click "Add Cloze (New Card)".
+- **Preview:** The flashcard preview updates automatically as you edit your notes.
+- **Clipboard:** Click "Copy to Clipboard" to copy the generated flashcards.
+
+### Command-Line Parsing
+
+You can also use the parser functionality in other Python scripts:
+
+```python
+from cloze_parser import generate_flashcards
+
+input_text = "Learning {{c1::Python}} is fun, and {{c2::Java}} too."
+flashcards = generate_flashcards(input_text)
+print(flashcards)
 ```
-This will generate flashcards from a sample text and print the question/answer format.
 
-### Running Unit Tests
+---
+
+## Running Tests
+
+To run the unit tests, execute:
+
 ```bash
 python -m unittest test_cloze_parser.py
 ```
-Executes unit tests to validate correct flashcard generation.
 
-## Project Structure
-```
-├── .gitignore            # Ignored files (e.g., __pycache__, virtual environments)
-├── cloze_parser.py       # Main parser for extracting and formatting cloze deletions
-├── flashcard_gui.py      # GUI application for text input and flashcard preview
-├── test_cloze_parser.py  # Unit tests for the parser
-├── README.md             # Project documentation (this file)
-```
+This will run a series of tests to verify that cloze deletions are parsed correctly.
 
-## How It Works
+---
 
-### Cloze Deletion Format
-Cloze deletions follow this syntax:
-```plaintext
-{{c1::Python}} is a programming language.
-{{c2::Java}} is another language.
-```
-This format creates two flashcards:
-1. **Question:** `_____ is a programming language.`
-   **Answer:** `["Python"]`
-2. **Question:** `Python is a programming language. _____ is another language.`
-   **Answer:** `["Java"]`
+## File Structure
 
-If multiple instances of the same cloze tag exist in a sentence:
-```plaintext
-Learning {{c1::Python}} is fun, and {{c1::programming}} is too.
-```
-The generated flashcard will have:
-- **Question:** `Learning _____ is fun, and _____ is too.`
-- **Answer:** `["Python", "programming"]`
+- **.gitignore:** Ignores common files and directories not needed in the repository.
+- **cloze_parser.py:** Contains the logic for parsing cloze deletion tags and generating flashcards.
+- **flashcard_gui.py:** Provides a Tkinter-based graphical user interface for creating and previewing flashcards.
+- **test_cloze_parser.py:** Unit tests for the cloze parser functionality.
 
-This means:
-- The `question` field blanks out only one cloze tag per card.
-- The `answer` field **returns a list** of the removed words.
+---
 
-## Contribution
-Contributions are welcome! Fork the repository, make improvements, and submit a pull request.
+## Contributing
 
-## LICENSE
-MIT License
+Feel free to fork the repository and submit pull requests. When contributing, please maintain clarity and consistency with the existing code style.
+
+---
+
+## License
+
+Sure! Here’s the full text of the **MIT License**:
+
+---
+
+**MIT License**
 
 Copyright (c) 2025 Jeff Balagosa
 
@@ -99,13 +102,19 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
+OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---
+
+## Acknowledgements
+
+This tool is designed to help you quickly convert your study notes into effective flashcards using the cloze deletion technique. Enjoy and happy studying!
