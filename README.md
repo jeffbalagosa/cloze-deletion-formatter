@@ -44,18 +44,6 @@ python flashcard_gui.py
 - **Preview:** The flashcard preview updates automatically as you edit your notes.
 - **Clipboard:** Click "Copy to Clipboard" to copy the generated flashcards.
 
-### Command-Line Parsing
-
-You can also use the parser functionality in other Python scripts:
-
-```python
-from cloze_parser import generate_flashcards
-
-input_text = "Learning {{c1::Python}} is fun, and {{c2::Java}} too."
-flashcards = generate_flashcards(input_text)
-print(flashcards)
-```
-
 ---
 
 ## Running Tests
