@@ -20,7 +20,9 @@ class FlashcardGUI(tk.Tk):
         self.input_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
         self.input_text.bind("<<Modified>>", self.on_input_change)
         self.input_text.bind("<Control-Shift-C>", self.wrap_selected_text)
-        self.input_text.bind("<Control-Alt-Shift-C>", self.wrap_selected_text_and_increment)
+        self.input_text.bind(
+            "<Control-Alt-Shift-C>", self.wrap_selected_text_and_increment
+        )
 
         # Output Label and Text Area
         output_label = tk.Label(self, text="Flashcard Preview:")
@@ -54,10 +56,14 @@ class FlashcardGUI(tk.Tk):
         return "break"  # Prevent further handling of this event
 
     def wrap_selected_text_and_increment(self, event):
-        # Call the regular wrap method first
+        # For Control-Alt-Shift-C, increment first to start at c2
+        if self.current_tag_num == 1:
+            self.current_tag_num = 2  # Start at c2
+        else:
+            self.current_tag_num += 1  # Continue incrementing
+
+        # Then call the regular wrap method
         self.wrap_selected_text(event)
-        # Then increment the tag number
-        self.current_tag_num += 1
         return "break"
 
     def update_preview(self):
