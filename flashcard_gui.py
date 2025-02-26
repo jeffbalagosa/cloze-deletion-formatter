@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import scrolledtext, messagebox
 from cloze_parser import generate_flashcards
 
 
@@ -51,6 +51,14 @@ class FlashcardGUI(tk.Tk):
             command=lambda: self.wrap_selected_text_and_increment(None),
         )
         cloze_increment_btn.pack(side=tk.LEFT, padx=5)
+
+        # Add Copy to Clipboard button
+        copy_btn = tk.Button(
+            button_frame,
+            text="Copy to Clipboard",
+            command=self.copy_to_clipboard
+        )
+        copy_btn.pack(side=tk.RIGHT, padx=5)
 
     def on_input_change(self, event):
         # When the input text is modified, update the preview
@@ -106,6 +114,19 @@ class FlashcardGUI(tk.Tk):
         self.output_text.delete("1.0", tk.END)
         self.output_text.insert(tk.END, preview_str)
         self.output_text.configure(state="disabled")
+
+    def copy_to_clipboard(self):
+        # Get the content from the output text widget
+        self.output_text.configure(state="normal")
+        content = self.output_text.get("1.0", tk.END)
+        self.output_text.configure(state="disabled")
+
+        # Clear clipboard and append the new content
+        self.clipboard_clear()
+        self.clipboard_append(content)
+
+        # Provide feedback to the user
+        messagebox.showinfo("Copied", "Flashcards copied to clipboard!")
 
 
 if __name__ == "__main__":
