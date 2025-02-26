@@ -8,7 +8,7 @@ class FlashcardGUI(tk.Tk):
         super().__init__()
         self.title("Cloze Deletion Flashcard Generator")
         self.geometry("800x600")
-        self.current_tag_num = 1  # Add this to track the current tag number
+        self.current_tag_num = 1  # Track the current tag number
         self.create_widgets()
 
     def create_widgets(self):
@@ -32,6 +32,25 @@ class FlashcardGUI(tk.Tk):
             self, wrap=tk.WORD, height=10, state="disabled"
         )
         self.output_text.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
+
+        # Button Frame
+        button_frame = tk.Frame(self)
+        button_frame.pack(fill=tk.X, padx=10, pady=10)
+
+        # Add buttons as alternatives to hotkeys
+        cloze_c1_btn = tk.Button(
+            button_frame,
+            text="Add Cloze c1 (Ctrl+Shift+C)",
+            command=lambda: self.wrap_selected_text(None),
+        )
+        cloze_c1_btn.pack(side=tk.LEFT, padx=5)
+
+        cloze_increment_btn = tk.Button(
+            button_frame,
+            text="Add Cloze c2+ (Ctrl+Alt+Shift+C)",
+            command=lambda: self.wrap_selected_text_and_increment(None),
+        )
+        cloze_increment_btn.pack(side=tk.LEFT, padx=5)
 
     def on_input_change(self, event):
         # When the input text is modified, update the preview
