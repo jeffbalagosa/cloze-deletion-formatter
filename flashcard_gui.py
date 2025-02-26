@@ -101,7 +101,7 @@ class FlashcardGUI(tk.Tk):
         # Build a preview string from the flashcards
         preview_str = ""
         if not flashcards:
-            preview_str = "No cloze deletions found."
+            preview_str = "Start adding cloze deletions to generate flashcards."
         else:
             for card in flashcards:
                 preview_str += f"Flashcard {card['tag']}:\n"
