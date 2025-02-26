@@ -87,10 +87,6 @@ Feel free to fork the repository and submit pull requests. When contributing, pl
 
 ## License
 
-Sure! Here’s the full text of the **MIT License**:
-
----
-
 **MIT License**
 
 Copyright (c) 2025 Jeff Balagosa
