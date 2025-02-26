@@ -105,8 +105,8 @@ class FlashcardGUI(tk.Tk):
         else:
             for card in flashcards:
                 preview_str += f"Flashcard {card['tag']}:\n"
-                preview_str += f"\nQuestion: {card['question']}\n"
-                preview_str += f"\nAnswer: {card['answer']}\n\n"
+                preview_str += f"\nFront: {card['question']}\n"
+                preview_str += f"\nBack: {card['answer']}\n\n"
                 preview_str += "-" * 40 + "\n\n"
 
         # Update the output text widget
