@@ -8,6 +8,7 @@ A simple Python application for creating cloze deletion flashcards from text. Th
 
 - **Cloze Parsing:** Convert text with cloze deletion tags (`{{c<number>::text}}`) into flashcard front/back pairs.
 - **Interactive GUI:** Use the Tkinter interface to input notes, create cloze deletions with keyboard shortcuts, preview flashcards, and copy them to the clipboard.
+- **Export Options:** Export your flashcards with various field and record separator options for compatibility with different flashcard applications.
 - **Testing:** Unit tests to ensure the cloze parsing works correctly.
 
 ---
@@ -42,7 +43,12 @@ python flashcard_gui.py
   - **Same Card:** Highlight text and press <kbd>Ctrl+Shift+C</kbd> or click "Add Cloze (Same Card)".
   - **New Card:** Highlight text and press <kbd>Ctrl+Alt+Shift+C</kbd> or click "Add Cloze (New Card)".
 - **Preview:** The flashcard preview updates automatically as you edit your notes.
-- **Clipboard:** Click "Copy to Clipboard" to copy the generated flashcards.
+- **Export:** Click "Export" to open the export screen with the following options:
+  - **Field Separator:** Choose Tab, Comma, or Custom separator between front and back content.
+  - **Record Separator:** Choose New Line, Semicolon, or Custom separator between different flashcards.
+  - Preview the exported data and copy it to clipboard.
+- **Clipboard:** Click "Copy to Clipboard" to copy the generated flashcards in preview format.
+- **Clear All:** Reset the input area and tag counter with the "Clear All" button.
 
 ---
 
@@ -63,6 +69,7 @@ This will run a series of tests to verify that cloze deletions are parsed correc
 - **.gitignore:** Ignores common files and directories not needed in the repository.
 - **cloze_parser.py:** Contains the logic for parsing cloze deletion tags and generating flashcards.
 - **flashcard_gui.py:** Provides a Tkinter-based graphical user interface for creating and previewing flashcards.
+- **export.py:** Handles the export functionality with different formatting options.
 - **test_cloze_parser.py:** Unit tests for the cloze parser functionality.
 
 ---
