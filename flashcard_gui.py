@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
 from cloze_parser import generate_flashcards
+from export import export_flashcards
 
 
 class FlashcardGUI(tk.Tk):
@@ -125,15 +126,115 @@ class FlashcardGUI(tk.Tk):
         # Create a new window for export functionality
         export_window = tk.Toplevel(self)
         export_window.title("Export")
-        export_window.geometry("600x400")
+        export_window.geometry("600x500")
 
-        # Example export-related UI elements
-        export_label = tk.Label(
-            export_window, text="Export Options", font=("Arial", 16)
+        # Title Label
+        title_label = tk.Label(export_window, text="Export Options", font=("Arial", 16))
+        title_label.pack(pady=10)
+
+        # Frame for Field Separator Options
+        field_frame = tk.LabelFrame(export_window, text="Field Separator (Front/Back)", padx=10, pady=10)
+        field_frame.pack(fill="x", padx=20, pady=10)
+
+        self.field_sep_option = tk.StringVar(value="tab")
+        tk.Radiobutton(field_frame, text="Tab (default)", variable=self.field_sep_option, value="tab",
+                       command=self.update_field_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(field_frame, text="Comma", variable=self.field_sep_option, value="comma",
+                       command=self.update_field_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(field_frame, text="Custom", variable=self.field_sep_option, value="custom",
+                       command=self.update_field_custom_visibility).pack(anchor="w")
+
+        self.custom_field_entry = tk.Entry(field_frame)
+        # Initially hide custom entry
+        self.custom_field_entry.pack_forget()
+
+        # Frame for Record Separator Options
+        record_frame = tk.LabelFrame(export_window, text="Record Separator (Between Flashcards)", padx=10, pady=10)
+        record_frame.pack(fill="x", padx=20, pady=10)
+
+        self.record_sep_option = tk.StringVar(value="newline")
+        tk.Radiobutton(record_frame, text="New Line (default)", variable=self.record_sep_option, value="newline",
+                       command=self.update_record_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(record_frame, text="Semicolon", variable=self.record_sep_option, value="semicolon",
+                       command=self.update_record_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(record_frame, text="Custom", variable=self.record_sep_option, value="custom",
+                       command=self.update_record_custom_visibility).pack(anchor="w")
+
+        self.custom_record_entry = tk.Entry(record_frame)
+        self.custom_record_entry.pack_forget()
+
+        # Export Action Button
+        export_action_btn = tk.Button(export_window, text="Export Flashcards", command=lambda: self.perform_export(export_window))
+        export_action_btn.pack(pady=10)
+
+        # Exported Output Area
+        output_label = tk.Label(export_window, text="Exported Data:")
+        output_label.pack(pady=(10, 0))
+        self.export_output_text = scrolledtext.ScrolledText(export_window, wrap=tk.WORD, height=10, state="disabled")
+        self.export_output_text.pack(fill="both", padx=20, pady=5, expand=True)
+
+        # Copy Exported Data Button
+        copy_export_btn = tk.Button(export_window, text="Copy Exported Data", command=self.copy_exported_data)
+        copy_export_btn.pack(pady=10)
+
+    def update_field_custom_visibility(self):
+        # Show custom field separator entry if 'custom' is selected; otherwise hide it.
+        if self.field_sep_option.get() == "custom":
+            self.custom_field_entry.pack(anchor="w", pady=5)
+            self.custom_field_entry.delete(0, tk.END)
+            self.custom_field_entry.insert(0, "")
+        else:
+            self.custom_field_entry.pack_forget()
+
+    def update_record_custom_visibility(self):
+        # Show custom record separator entry if 'custom' is selected; otherwise hide it.
+        if self.record_sep_option.get() == "custom":
+            self.custom_record_entry.pack(anchor="w", pady=5)
+            self.custom_record_entry.delete(0, tk.END)
+            self.custom_record_entry.insert(0, "")
+        else:
+            self.custom_record_entry.pack_forget()
+
+    def perform_export(self, export_window):
+        # Generate flashcards from the input text
+        text = self.input_text.get("1.0", tk.END).strip()
+        flashcards = generate_flashcards(text)
+        if not flashcards:
+            messagebox.showwarning("Export Warning", "No flashcards to export!")
+            return
+
+        # Get the field separator setting
+        field_opt = self.field_sep_option.get()
+        custom_field = self.custom_field_entry.get() if field_opt == "custom" else None
+
+        # Get the record separator setting
+        record_opt = self.record_sep_option.get()
+        custom_record = self.custom_record_entry.get() if record_opt == "custom" else None
+
+        # Call the export function to get the exported text
+        exported_text = export_flashcards(
+            flashcards,
+            field_option=field_opt,
+            record_option=record_opt,
+            custom_field=custom_field,
+            custom_record=custom_record,
         )
-        export_label.pack(pady=20)
 
-        # (Place additional export functionality widgets here, e.g., format selection, file save options, etc.)
+        # Display the exported text in the export output area
+        self.export_output_text.configure(state="normal")
+        self.export_output_text.delete("1.0", tk.END)
+        self.export_output_text.insert(tk.END, exported_text)
+        self.export_output_text.configure(state="disabled")
+
+    def copy_exported_data(self):
+        # Copy the exported text from the export output area to the clipboard
+        exported_text = self.export_output_text.get("1.0", tk.END)
+        if not exported_text.strip():
+            messagebox.showwarning("Copy Warning", "No exported data to copy!")
+            return
+        self.clipboard_clear()
+        self.clipboard_append(exported_text)
+        messagebox.showinfo("Copied", "Exported data copied to clipboard!")
 
 
 if __name__ == "__main__":
