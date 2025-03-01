@@ -37,7 +37,7 @@ class FlashcardGUI(tk.Tk):
         button_frame = tk.Frame(self)
         button_frame.pack(fill=tk.X, padx=10, pady=10)
 
-        # Add buttons as alternatives to hotkeys
+        # Existing buttons for cloze functionality
         cloze_c1_btn = tk.Button(
             button_frame,
             text="Add Cloze (Same Card)",
@@ -52,11 +52,15 @@ class FlashcardGUI(tk.Tk):
         )
         cloze_increment_btn.pack(side=tk.LEFT, padx=5)
 
-        # Add Copy to Clipboard button
+        # New Export button to navigate to the export screen
+        export_btn = tk.Button(
+            button_frame, text="Export", command=self.show_export_screen
+        )
+        export_btn.pack(side=tk.LEFT, padx=5)
+
+        # Copy to Clipboard button remains on the main screen
         copy_btn = tk.Button(
-            button_frame,
-            text="Copy to Clipboard",
-            command=self.copy_to_clipboard
+            button_frame, text="Copy to Clipboard", command=self.copy_to_clipboard
         )
         copy_btn.pack(side=tk.RIGHT, padx=5)
 
@@ -74,31 +78,26 @@ class FlashcardGUI(tk.Tk):
         except tk.TclError:
             return "break"
 
-        # Create the new wrapped text
+        # Wrap the selected text with cloze deletion tags
         new_text = f"{{{{c{self.current_tag_num}::{selected_text}}}}}"
-
-        # Replace the selection with the new text
         self.input_text.delete(start, end)
         self.input_text.insert(start, new_text)
-        return "break"  # Prevent further handling of this event
+        return "break"
 
     def wrap_selected_text_and_increment(self, event):
-        # For Control-Alt-Shift-C, increment first to start at c2
+        # Increment tag number before wrapping text for a new flashcard
         if self.current_tag_num == 1:
-            self.current_tag_num = 2  # Start at c2
+            self.current_tag_num = 2
         else:
-            self.current_tag_num += 1  # Continue incrementing
+            self.current_tag_num += 1
 
-        # Then call the regular wrap method
         self.wrap_selected_text(event)
         return "break"
 
     def update_preview(self):
-        # Get the input text
+        # Update the flashcard preview based on the input text
         text = self.input_text.get("1.0", tk.END).strip()
         flashcards = generate_flashcards(text)
-
-        # Build a preview string from the flashcards
         preview_str = ""
         if not flashcards:
             preview_str = "Start adding cloze deletions to generate flashcards."
@@ -108,24 +107,33 @@ class FlashcardGUI(tk.Tk):
                 preview_str += f"\nFront: {card['front']}\n"
                 preview_str += f"\nBack: {card['back']}\n\n"
                 preview_str += "-" * 40 + "\n\n"
-        # Update the output text widget
         self.output_text.configure(state="normal")
         self.output_text.delete("1.0", tk.END)
         self.output_text.insert(tk.END, preview_str)
         self.output_text.configure(state="disabled")
 
     def copy_to_clipboard(self):
-        # Get the content from the output text widget
+        # Copy the generated flashcards to the clipboard
         self.output_text.configure(state="normal")
         content = self.output_text.get("1.0", tk.END)
         self.output_text.configure(state="disabled")
-
-        # Clear clipboard and append the new content
         self.clipboard_clear()
         self.clipboard_append(content)
-
-        # Provide feedback to the user
         messagebox.showinfo("Copied", "Flashcards copied to clipboard!")
+
+    def show_export_screen(self):
+        # Create a new window for export functionality
+        export_window = tk.Toplevel(self)
+        export_window.title("Export")
+        export_window.geometry("600x400")
+
+        # Example export-related UI elements
+        export_label = tk.Label(
+            export_window, text="Export Options", font=("Arial", 16)
+        )
+        export_label.pack(pady=20)
+
+        # (Place additional export functionality widgets here, e.g., format selection, file save options, etc.)
 
 
 if __name__ == "__main__":
