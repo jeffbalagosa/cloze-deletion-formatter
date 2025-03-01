@@ -12,6 +12,23 @@ class FlashcardGUI(tk.Tk):
         self.current_tag_num = 1  # Track the current tag number
         self.create_widgets()
 
+    def clear_all(self):
+        # Clear the input text area
+        self.input_text.delete("1.0", tk.END)
+
+        # Reset the tag counter to 1
+        self.current_tag_num = 1
+
+        # Clear the output preview
+        self.output_text.configure(state="normal")
+        self.output_text.delete("1.0", tk.END)
+        self.output_text.configure(state="disabled")
+
+        # Show confirmation message
+        messagebox.showinfo(
+            "Clear", "All inputs have been cleared and tag counter reset to 1."
+        )
+
     def create_widgets(self):
         # Input Label and Text Area
         input_label = tk.Label(self, text="Input Notes:")
@@ -58,6 +75,10 @@ class FlashcardGUI(tk.Tk):
             button_frame, text="Export", command=self.show_export_screen
         )
         export_btn.pack(side=tk.LEFT, padx=5)
+
+        # Adding Clear button
+        clear_btn = tk.Button(button_frame, text="Clear All", command=self.clear_all)
+        clear_btn.pack(side=tk.LEFT, padx=5)
 
         # Copy to Clipboard button remains on the main screen
         copy_btn = tk.Button(
@@ -133,48 +154,93 @@ class FlashcardGUI(tk.Tk):
         title_label.pack(pady=10)
 
         # Frame for Field Separator Options
-        field_frame = tk.LabelFrame(export_window, text="Field Separator (Front/Back)", padx=10, pady=10)
+        field_frame = tk.LabelFrame(
+            export_window, text="Field Separator (Front/Back)", padx=10, pady=10
+        )
         field_frame.pack(fill="x", padx=20, pady=10)
 
         self.field_sep_option = tk.StringVar(value="tab")
-        tk.Radiobutton(field_frame, text="Tab (default)", variable=self.field_sep_option, value="tab",
-                       command=self.update_field_custom_visibility).pack(anchor="w")
-        tk.Radiobutton(field_frame, text="Comma", variable=self.field_sep_option, value="comma",
-                       command=self.update_field_custom_visibility).pack(anchor="w")
-        tk.Radiobutton(field_frame, text="Custom", variable=self.field_sep_option, value="custom",
-                       command=self.update_field_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(
+            field_frame,
+            text="Tab (default)",
+            variable=self.field_sep_option,
+            value="tab",
+            command=self.update_field_custom_visibility,
+        ).pack(anchor="w")
+        tk.Radiobutton(
+            field_frame,
+            text="Comma",
+            variable=self.field_sep_option,
+            value="comma",
+            command=self.update_field_custom_visibility,
+        ).pack(anchor="w")
+        tk.Radiobutton(
+            field_frame,
+            text="Custom",
+            variable=self.field_sep_option,
+            value="custom",
+            command=self.update_field_custom_visibility,
+        ).pack(anchor="w")
 
         self.custom_field_entry = tk.Entry(field_frame)
         # Initially hide custom entry
         self.custom_field_entry.pack_forget()
 
         # Frame for Record Separator Options
-        record_frame = tk.LabelFrame(export_window, text="Record Separator (Between Flashcards)", padx=10, pady=10)
+        record_frame = tk.LabelFrame(
+            export_window,
+            text="Record Separator (Between Flashcards)",
+            padx=10,
+            pady=10,
+        )
         record_frame.pack(fill="x", padx=20, pady=10)
 
         self.record_sep_option = tk.StringVar(value="newline")
-        tk.Radiobutton(record_frame, text="New Line (default)", variable=self.record_sep_option, value="newline",
-                       command=self.update_record_custom_visibility).pack(anchor="w")
-        tk.Radiobutton(record_frame, text="Semicolon", variable=self.record_sep_option, value="semicolon",
-                       command=self.update_record_custom_visibility).pack(anchor="w")
-        tk.Radiobutton(record_frame, text="Custom", variable=self.record_sep_option, value="custom",
-                       command=self.update_record_custom_visibility).pack(anchor="w")
+        tk.Radiobutton(
+            record_frame,
+            text="New Line (default)",
+            variable=self.record_sep_option,
+            value="newline",
+            command=self.update_record_custom_visibility,
+        ).pack(anchor="w")
+        tk.Radiobutton(
+            record_frame,
+            text="Semicolon",
+            variable=self.record_sep_option,
+            value="semicolon",
+            command=self.update_record_custom_visibility,
+        ).pack(anchor="w")
+        tk.Radiobutton(
+            record_frame,
+            text="Custom",
+            variable=self.record_sep_option,
+            value="custom",
+            command=self.update_record_custom_visibility,
+        ).pack(anchor="w")
 
         self.custom_record_entry = tk.Entry(record_frame)
         self.custom_record_entry.pack_forget()
 
         # Export Action Button
-        export_action_btn = tk.Button(export_window, text="Export Flashcards", command=lambda: self.perform_export(export_window))
+        export_action_btn = tk.Button(
+            export_window,
+            text="Export Flashcards",
+            command=lambda: self.perform_export(export_window),
+        )
         export_action_btn.pack(pady=10)
 
         # Exported Output Area
         output_label = tk.Label(export_window, text="Exported Data:")
         output_label.pack(pady=(10, 0))
-        self.export_output_text = scrolledtext.ScrolledText(export_window, wrap=tk.WORD, height=10, state="disabled")
+        self.export_output_text = scrolledtext.ScrolledText(
+            export_window, wrap=tk.WORD, height=10, state="disabled"
+        )
         self.export_output_text.pack(fill="both", padx=20, pady=5, expand=True)
 
         # Copy Exported Data Button
-        copy_export_btn = tk.Button(export_window, text="Copy Exported Data", command=self.copy_exported_data)
+        copy_export_btn = tk.Button(
+            export_window, text="Copy Exported Data", command=self.copy_exported_data
+        )
         copy_export_btn.pack(pady=10)
 
     def update_field_custom_visibility(self):
@@ -209,7 +275,9 @@ class FlashcardGUI(tk.Tk):
 
         # Get the record separator setting
         record_opt = self.record_sep_option.get()
-        custom_record = self.custom_record_entry.get() if record_opt == "custom" else None
+        custom_record = (
+            self.custom_record_entry.get() if record_opt == "custom" else None
+        )
 
         # Call the export function to get the exported text
         exported_text = export_flashcards(
