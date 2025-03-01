@@ -52,4 +52,5 @@ logs/
 .DS_Store
 
 # repository packager
+.repomix/
 repomix-output.txt
