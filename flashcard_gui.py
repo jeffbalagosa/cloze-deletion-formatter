@@ -147,7 +147,7 @@ class FlashcardGUI(tk.Tk):
         # Create a new window for export functionality
         export_window = tk.Toplevel(self)
         export_window.title("Export")
-        export_window.geometry("600x500")
+        export_window.geometry("600x800")
 
         # Title Label
         title_label = tk.Label(export_window, text="Export Options", font=("Arial", 16))
