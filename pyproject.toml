@@ -2,6 +2,14 @@
 # Set the maximum line length to 88 (PEP 8 compliant)
 line-length = 88
 
+# Exclude certain files/directories
+extend-exclude = [
+    "__pycache__",
+    ".git",
+    ".venv"
+]
+
+[tool.ruff.lint]
 # Enable pycodestyle (PEP 8) and Pyflakes rules
 select = [
     "E",  # pycodestyle errors
@@ -10,14 +18,7 @@ select = [
     "I",  # isort (import sorting)
 ]
 
-# Exclude certain files/directories
-extend-exclude = [
-    "__pycache__",
-    ".git",
-    ".venv"
-]
-
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 # Combine multiple `from` imports into a single statement
 combine-as-imports = true
 
