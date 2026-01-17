@@ -1,0 +1,32 @@
+[tool.ruff]
+# Set the maximum line length to 88 (PEP 8 compliant)
+line-length = 88
+
+# Enable pycodestyle (PEP 8) and Pyflakes rules
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort (import sorting)
+]
+
+# Exclude certain files/directories
+extend-exclude = [
+    "__pycache__",
+    ".git",
+    ".venv"
+]
+
+[tool.ruff.isort]
+# Combine multiple `from` imports into a single statement
+combine-as-imports = true
+
+[tool.ruff.format]
+# Use single quotes for strings
+quote-style = "single"
+
+# Use trailing commas for better git diffs
+skip-magic-trailing-comma = false
+
+# Set the line ending to automatic
+line-ending = "auto"

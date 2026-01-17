@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import scrolledtext, messagebox
+from tkinter import messagebox, scrolledtext
+
 from cloze_parser import generate_flashcards
 from export import export_flashcards
 

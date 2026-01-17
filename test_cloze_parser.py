@@ -1,4 +1,5 @@
 import unittest
+
 from cloze_parser import generate_flashcards
 
 

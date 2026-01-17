@@ -24,7 +24,13 @@ A simple Python application for creating cloze deletion flashcards from text. Th
 
 2. **Dependencies:**
 
-   This project uses only the Python standard library (including `tkinter` for the GUI), so no additional packages are required.
+   This project uses only the Python standard library (including `tkinter` for the GUI), so no additional runtime packages are required.
+
+   For development, we use [Ruff](https://docs.astral.sh/ruff/) for linting and formatting. Install development dependencies with:
+
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
 
 ---
 
@@ -49,6 +55,26 @@ python flashcard_gui.py
   - Preview the exported data and copy it to clipboard.
 - **Clipboard:** Click "Copy to Clipboard" to copy the generated flashcards in preview format.
 - **Clear All:** Reset the input area and tag counter with the "Clear All" button.
+
+---
+
+## Linting and Formatting
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting. To ensure code quality and consistency:
+
+```bash
+# Check for linting issues
+python -m ruff check .
+
+# Automatically fix linting issues
+python -m ruff check . --fix
+
+# Format code
+python -m ruff format .
+
+# Check if code is properly formatted (without making changes)
+python -m ruff format --check .
+```
 
 ---
 
