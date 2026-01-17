@@ -83,7 +83,9 @@ class FlashcardGUI(tk.Tk):
 
         # Copy to Clipboard button remains on the main screen
         copy_btn = tk.Button(
-            button_frame, text='Copy to Clipboard', command=self.copy_to_clipboard
+            button_frame,
+            text='Copy to Clipboard',
+            command=self.copy_to_clipboard,
         )
         copy_btn.pack(side=tk.RIGHT, padx=5)
 
@@ -151,12 +153,19 @@ class FlashcardGUI(tk.Tk):
         export_window.geometry('600x800')
 
         # Title Label
-        title_label = tk.Label(export_window, text='Export Options', font=('Arial', 16))
+        title_label = tk.Label(
+            export_window,
+            text='Export Options',
+            font=('Arial', 16),
+        )
         title_label.pack(pady=10)
 
         # Frame for Field Separator Options
         field_frame = tk.LabelFrame(
-            export_window, text='Field Separator (Front/Back)', padx=10, pady=10
+            export_window,
+            text='Field Separator (Front/Back)',
+            padx=10,
+            pady=10,
         )
         field_frame.pack(fill='x', padx=20, pady=10)
 

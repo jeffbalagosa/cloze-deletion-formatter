@@ -3,7 +3,8 @@ import re
 
 def generate_flashcards(input_text):
     """
-    Generates flashcards from the given input text containing cloze deletion tags.
+    Generate flashcards from the given input text containing cloze deletion
+    tags.
 
     Args:
         input_text (str): The input text containing cloze deletion tags of the
